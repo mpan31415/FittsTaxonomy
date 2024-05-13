@@ -102,7 +102,7 @@ def main():
             for trial_id in range(1, 4):
                 data = clean_data(part_id, task_id, trial_id, "kinesthetic", panda_chain)
                 dest_dir = getcwd()+"/FittsTaxonomy/user_study_results/cleaned_traj/kt/part"+str(part_id)+"-task"+str(task_id)+"-t"+str(trial_id)+".csv"
-                data.to_csv(dest_dir)
+                data.to_csv(dest_dir, index=False)
     
     ###### clean all data for teleoperation ######
     for part_id in range(1, NUM_PARTICIPANTS+1):
@@ -110,7 +110,7 @@ def main():
             for trial_id in range(1, 4):
                 data = clean_data(part_id, task_id, trial_id, "teleoperation", panda_chain)
                 dest_dir = getcwd()+"/FittsTaxonomy/user_study_results/cleaned_traj/teleop/part"+str(part_id)+"-task"+str(task_id)+"-t"+str(trial_id)+".csv"
-                data.to_csv(dest_dir)
+                data.to_csv(dest_dir, index=False)
 
     print("\n\n Finished cleaning all data!! \n\n") 
     
