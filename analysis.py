@@ -112,7 +112,7 @@ def main():
                 dest_dir = getcwd()+"/FittsTaxonomy/user_study_results/cleaned_traj/teleop/part"+str(part_id)+"-task"+str(task_id)+"-t"+str(trial_id)+".csv"
                 data.to_csv(dest_dir)
 
-    print("\n\n Finished cleaning all data!! \n\n")
+    print("\n\n Finished cleaning all data!! \n\n") 
     
     
 
