@@ -1,0 +1,11 @@
+##### inside Docker #####
+
+1. clean_up_data.py -> {generate trajectory files in \cleaned_traj folder}
+
+
+
+##### in Windows #####
+
+1. plotting.py (visualize one or more of the trajectories)
+
+2. create_headers.py -> {generate headers.py inside the \headers folder}
