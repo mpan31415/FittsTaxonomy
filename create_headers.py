@@ -39,6 +39,9 @@ def generate_part_header(part_id, operation_type):
     path_rot_list = []
     move_time_list = []
     
+    inc_trans_list = []
+    inc_rot_list = []
+    
     # loop through all 3 tasks
     for task_id in range(1, 4):
         
@@ -57,8 +60,11 @@ def generate_part_header(part_id, operation_type):
             tzs = sec1_df['tz'].tolist()
             trans = get_trans_diff(txs[0], tys[0], tzs[0], txs[-1], tys[-1], tzs[-1])
             path_trans = 0
+            inc_trans = []
             for i in range(len(txs)-1):
-                path_trans += get_trans_diff(txs[i], tys[i], tzs[i], txs[i+1], tys[i+1], tzs[i+1])
+                trans = get_trans_diff(txs[i], tys[i], tzs[i], txs[i+1], tys[i+1], tzs[i+1])
+                path_trans += trans
+                inc_trans.append(trans)
             
             # get amount of rotation (using both end-to-end and integral forms)
             # quaternion lists
@@ -68,8 +74,11 @@ def generate_part_header(part_id, operation_type):
             qzs = sec1_df['qz'].tolist()
             rot = get_quat_diff(qws[0], qxs[0], qys[0], qzs[0], qws[-1], qxs[-1], qys[-1], qzs[-1])
             path_rot = 0
+            inc_rot = []
             for i in range(len(qws)-1):
-                path_rot += get_quat_diff(qws[i], qxs[i], qys[i], qzs[i], qws[i+1], qxs[i+1], qys[i+1], qzs[i+1])
+                rot = get_quat_diff(qws[i], qxs[i], qys[i], qzs[i], qws[i+1], qxs[i+1], qys[i+1], qzs[i+1])
+                path_rot += rot
+                inc_rot.append(rot)
             
             # get movement time
             times_list = sec1_df['time'].tolist()
@@ -89,6 +98,9 @@ def generate_part_header(part_id, operation_type):
             path_rot_list.append(path_rot)
             move_time_list.append(move_time)
             
+            inc_trans_list.append(inc_trans)
+            inc_rot_list.append(inc_rot)
+            
             
             ############ Section 2: From "grasped" -> "successful task completion" ############
             sec2_df = df[df['gr_state']=="Done"]
@@ -99,8 +111,11 @@ def generate_part_header(part_id, operation_type):
             tzs = sec2_df['tz'].tolist()
             trans = get_trans_diff(txs[0], tys[0], tzs[0], txs[-1], tys[-1], tzs[-1])
             path_trans = 0
+            inc_trans = []
             for i in range(len(txs)-1):
-                path_trans += get_trans_diff(txs[i], tys[i], tzs[i], txs[i+1], tys[i+1], tzs[i+1])
+                trans = get_trans_diff(txs[i], tys[i], tzs[i], txs[i+1], tys[i+1], tzs[i+1])
+                path_trans += trans
+                inc_trans.append(trans)
             
             # get amount of rotation (using both end-to-end and integral forms)
             # quaternion lists
@@ -110,8 +125,11 @@ def generate_part_header(part_id, operation_type):
             qzs = sec2_df['qz'].tolist()
             rot = get_quat_diff(qws[0], qxs[0], qys[0], qzs[0], qws[-1], qxs[-1], qys[-1], qzs[-1])
             path_rot = 0
+            inc_rot = []
             for i in range(len(qws)-1):
-                path_rot += get_quat_diff(qws[i], qxs[i], qys[i], qzs[i], qws[i+1], qxs[i+1], qys[i+1], qzs[i+1])
+                rot = get_quat_diff(qws[i], qxs[i], qys[i], qzs[i], qws[i+1], qxs[i+1], qys[i+1], qzs[i+1])
+                path_rot += rot
+                inc_rot.append(rot)
             
             # get movement time
             times_list = sec2_df['time'].tolist()
@@ -128,6 +146,10 @@ def generate_part_header(part_id, operation_type):
             path_rot_list.append(path_rot)
             move_time_list.append(move_time)
             
+            inc_trans_list.append(inc_trans)
+            inc_rot_list.append(inc_rot)
+            
+            
     part_id_list = [part_id for i in range(len(task_id_list))]
     # generate Dataframe dictionary
     df_dict = {
@@ -139,7 +161,9 @@ def generate_part_header(part_id, operation_type):
         "path_trans": path_trans_list,
         "rot": rot_list,
         "path_rot": path_rot_list,
-        "move_time": move_time_list
+        "move_time": move_time_list,
+        "inc_trans": inc_trans_list,
+        "inc_rot": inc_rot_list
     }
     result_df = DataFrame(df_dict)
     
