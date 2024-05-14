@@ -128,9 +128,10 @@ def generate_part_header(part_id, operation_type):
             path_rot_list.append(path_rot)
             move_time_list.append(move_time)
             
-            
+    part_id_list = [part_id for i in range(len(task_id_list))]
     # generate Dataframe dictionary
     df_dict = {
+        "part_id": part_id_list,
         "task_id": task_id_list,
         "trial_id": trial_id_list,
         "section": section_num_list,

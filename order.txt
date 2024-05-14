@@ -8,4 +8,6 @@
 
 1. plotting.py (visualize one or more of the trajectories)
 
-2. create_headers.py -> {generate headers.py inside the \headers folder}
+2. create_headers.py -> {generate headers.csv inside the \headers folder}
+
+3. combine_headers.py -> {generate kt_header.csv and teleop_header.csv inside /combined_headers folder}
