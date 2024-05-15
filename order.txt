@@ -6,8 +6,15 @@
 
 ##### in Windows #####
 
-1. plotting.py (visualize one or more of the trajectories)
+1. create_headers.py -> {generate headers.csv inside the \headers folder}
 
-2. create_headers.py -> {generate headers.csv inside the \headers folder}
+2. combine_headers.py -> {generate kt_header.csv and teleop_header.csv inside /combined_headers folder}
 
-3. combine_headers.py -> {generate kt_header.csv and teleop_header.csv inside /combined_headers folder}
+
+##### For visualizations #####
+
+1. plot_traj.py (visualize one or more of the trajectories)
+
+2. linreg_and_plot.py (multiple regression plot of move_time against path_trans and path_rot)
+
+3. similarity.ipynb (visualize the translation and rotations across time for any trajectory, series vs. parallel?)

@@ -45,15 +45,15 @@ def main():
     ax = plt.figure().add_subplot(projection='3d')
     ax.view_init(elev=15., azim=20, roll=0)
     
-    # # Set labels
-    # ax.set_xlabel('X axis')
-    # ax.set_ylabel('Y axis')
-    # ax.set_zlabel('Z axis')
+    # Set labels
+    ax.set_xlabel('X axis')
+    ax.set_ylabel('Y axis')
+    ax.set_zlabel('Z axis')
 
-    # # Set the range for each axis
-    # ax.set_xlim([-10, 10])
-    # ax.set_ylim([-10, 10])
-    # ax.set_zlim([-10, 10])
+    # Set the range for each axis
+    ax.set_xlim([0.2, 0.8])
+    ax.set_ylim([-0.3, 0.3])
+    ax.set_zlim([0.0, 0.6])
     
     grasped_point_plotted = False
     

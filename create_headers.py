@@ -42,6 +42,9 @@ def generate_part_header(part_id, operation_type):
     inc_trans_list = []
     inc_rot_list = []
     
+    dtw_dist_list = []
+    sim_list = []
+    
     # loop through all 3 tasks
     for task_id in range(1, 4):
         

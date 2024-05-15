@@ -48,6 +48,7 @@ def remove_rot_outlier(df, threshold=pi/2):
 def linreg_and_plot(lst1, lst2, lst3, operation_type:str):
 
     # Plot the data points
+    fig = plt.figure()
     ax = plt.axes(projection ='3d')   
     
     # Convert inputs to numpy arrays
@@ -108,8 +109,8 @@ def linreg_and_plot(lst1, lst2, lst3, operation_type:str):
 ##################################################
 def main():
     
-    # operation_type = "kt"
-    operation_type = "teleop"
+    operation_type = "kt"
+    # operation_type = "teleop"
     
     
     # read data
