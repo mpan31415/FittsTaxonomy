@@ -1,0 +1,97 @@
+---
+title: "move_times"
+output: html_document
+date: "2024-04-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Analysis script for "
+
+```{r load libraries}
+library(readr)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(stats)
+library(lme4)
+library(dplyr)
+library(ez)
+library(ltm)
+library(interactions)
+library(ggcorrplot)
+library(lmerTest)
+```
+
+
+## Extract dataframe from csv file and get (mean, sd) or (mean, se) summary
+
+```{r read csv}
+
+setwd("C:/Users/micha/OneDrive/My_GitHub_Repos/FittsTaxonomy/user_study_results/fitts_headers/")
+
+kt_df <- read_csv("kt.csv", show_col_types = FALSE)
+
+teleop_df <- read_csv("teleop.csv", show_col_types = FALSE)
+
+
+```
+
+## Fit Linear Model
+
+```{r fit model}
+
+# Fit the multiple regression model - Kinesthetic teaching
+model <- lm(move_time ~ eff_trans_fid + eff_rot_fid + (1+eff_trans_fid|part_id) + (1+eff_rot_fid|part_id) + (1|part_id), data = kt_df)
+summary(model)
+
+# Get the model residuals
+model_residuals = model$residuals
+hist(model_residuals)
+
+# Plot the residuals
+qqnorm(model_residuals)
+# Plot the Q-Q line
+qqline(model_residuals)
+
+
+# Fit the mixed multiple regression model with interaction - Kinesthetic teaching
+model <- lmer(move_time ~ eff_trans_fid * eff_rot_fid + (1+eff_trans_fid|part_id) + (1+eff_rot_fid|part_id) + (1|part_id), data = kt_df)
+summary(model)
+
+
+```
+
+
+
+## Fit Linear Model
+
+```{r fit model}
+
+# Fit the multiple regression model - teleoperation
+model <- lm(move_time ~ eff_trans_fid + eff_rot_fid + (1+eff_trans_fid|part_id) + (1+eff_rot_fid|part_id) + (1|part_id), data = teleop_df)
+
+# Summarize the model
+summary(model)
+
+# Get the model residuals
+model_residuals = model$residuals
+hist(model_residuals)
+
+# Plot the residuals
+qqnorm(model_residuals)
+# Plot the Q-Q line
+qqline(model_residuals)
+
+
+# Fit the mixed multiple regression model with interaction - teleoperation
+model <- lmer(move_time ~ eff_trans_fid * eff_rot_fid + (1+eff_trans_fid|part_id) + (1+eff_rot_fid|part_id) + (1|part_id), data = teleop_df)
+summary(model)
+
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,185 @@
+---
+title: "norm_abs_diffs"
+output: html_document
+date: "2024-04-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Analysis script for "
+
+```{r load libraries}
+library(readr)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(stats)
+library(lme4)
+library(dplyr)
+library(ez)
+library(ltm)
+library(interactions)
+```
+
+
+## Extract dataframe from csv file and get (mean, sd) or (mean, se) summary
+
+```{r read csv}
+
+setwd("C:/Users/micha/OneDrive/My_GitHub_Repos/FittsTaxonomy/user_study_results/fitts_headers/")
+
+task_df <- read_csv("overall.csv", show_col_types = FALSE)
+
+
+######################### get mean and sd (or se) ######################### 
+task_df %>%
+  group_by(op_type) %>%
+  get_summary_stats(norm_abs_diff, type = "mean_sd")
+
+
+
+```
+
+## Plots
+
+```{r do plotting}
+
+bxp1 <- ggboxplot(task_df, x = "op_type", y = "norm_abs_diff", 
+          color = "op_type", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("kt", "teleop"),
+          ylab = "Move Time (s)", xlab = "Operation Type")
+bxp1
+
+```
+
+
+## Check assumptions
+
+```{r check assumptions}
+
+######################### check for outliers ######################### 
+task_df %>%
+  group_by(op_type) %>%
+  identify_outliers(norm_abs_diff)
+
+######################### check normality ######################### 
+task_df %>%
+  group_by(op_type) %>%
+  shapiro_test(norm_abs_diff)
+
+######################### plot normality ########C
+
+
+```
+
+
+## Fit ANOVA
+
+```{r fit model}
+
+######################### one-way mixed ANOVA test #########################  
+# res.aov <- anova_test(
+#   data = task_df, dv = norm_abs_diff, wid = part_id,
+#   within = op_type
+#   )
+# get_anova_table(res.aov)
+
+# Compute the analysis of variance
+res.aov <- aov(norm_abs_diff ~ op_type, data = task_df)
+# Summary of the analysis
+summary(res.aov)
+
+
+# #################### Effect of op_type for each ring_id #################### 
+# one.way <- task_df %>%
+#   group_by(ring_id) %>%
+#   anova_test(dv = norm_abs_diff, wid = part_id, within = op_type) %>%
+#   get_anova_table() %>%
+#   adjust_pvalue(method = "bonferroni")
+# one.way
+# 
+# #################### Effect of ring_id for each op_type #################### 
+# one.way <- task_df %>%
+#   group_by(op_type) %>%
+#   anova_test(dv = norm_abs_diff, wid = part_id, within = ring_id) %>%
+#   get_anova_table() %>%
+#   adjust_pvalue(method = "bonferroni")
+# one.way
+
+
+# #################### Pairwise comparisons between op_type groups for each ring_id #################### 
+# pwc1 <- task_df %>%
+#   group_by(fitts_id_level) %>%
+#   pairwise_t_test(
+#     norm_abs_diff ~ op_type, paired = TRUE,
+#     p.adjust.method = "bonferroni"
+#     )
+# pwc1
+# # Create a box plot
+# pwc1 <- pwc1 %>% add_xy_position(x = "op_type", group = "fitts_id_level")
+# bxp2 <- ggboxplot(
+#   task_df, x = "op_type", y = "norm_abs_diff", 
+#   color = "fitts_id_level", palette = "jco"
+# ) +
+#   stat_pvalue_manual(
+#     pwc1, color = "fitts_id_level", group.by = "legend.var",
+#     bracket.nudge.y = 0.2, step.increase = 0.15, label.size = 3, vjust = 0.1,
+#     tip.length = 0, y.position = 20
+#   )
+# bxp2
+# 
+# 
+# #################### Pairwise comparisons between ring_id groups for each op_type #################### 
+# pwc2 <- task_df %>%
+#   group_by(op_type) %>%
+#   pairwise_t_test(
+#     norm_abs_diff ~ fitts_id_level, paired = TRUE,
+#     p.adjust.method = "bonferroni"
+#     )
+# pwc2
+# # Create a box plot
+# pwc2 <- pwc2 %>% add_xy_position(x = "fitts_id_level", group = "op_type")
+# bxp3 <- ggboxplot(
+#   task_df, x = "fitts_id_level", y = "norm_abs_diff", 
+#   color = "op_type", palette = "jco"
+# ) +
+#   stat_pvalue_manual(
+#     pwc2, color = "op_type", group.by = "legend.var",
+#     bracket.nudge.y = 0.2, step.increase = 0.5, label.size = 3, vjust = 0.1,
+#     tip.length = 0, y.position = 20
+#   )
+# bxp3
+
+
+```
+
+
+## Fit Linear Model
+
+```{r fit model}
+
+# # ###### fit linear mixed model 1 ######
+# model <- lmer(norm_abs_diff ~ auto_num * fitts_id_num + (1+auto_num|part_id) + (1+fitts_id_num|part_id) + (1|part_id),
+#               data = task_df)
+# summary(model)
+# 
+# 
+# ###### fit linear mixed model 2 ######
+# fit <- lm(norm_abs_diff ~ fitts_id_num * op_type, data = task_df)
+# # summary(fit)
+# 
+# interact_plot(fit, pred = fitts_id_num, modx = op_type, 
+#               interval = TRUE, int.type = "confidence", int.width = .8,
+#               plot.points = TRUE,
+#               x.label="Fitts ID", y.label="Move time (s)", 
+#               modx.labels = c("low", "med", "high")
+#               )
+
+
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -16,7 +16,8 @@ def read_part_data(part_id, operation_type):
 
 ##################################################
 def read_data(operation_type):
-    csv_dir = getcwd() + "\\user_study_results\\combined_headers\\"+operation_type+".csv"
+    # csv_dir = getcwd() + "\\user_study_results\\combined_headers\\"+operation_type+".csv"
+    csv_dir = getcwd() + "\\user_study_results\\fitts_headers\\"+operation_type+".csv"
     raw_df = read_csv(csv_dir)
     return raw_df
 
@@ -92,8 +93,8 @@ def linreg_and_plot(lst1, lst2, lst3, operation_type:str):
     ax.plot_surface(x1_grid, x2_grid, y_grid, alpha=0.5, color='blue', label='Regression plane')
     
     # axes labels
-    ax.set_xlabel("translation (m)")
-    ax.set_ylabel("rotation (radians)")
+    ax.set_xlabel("translation")
+    ax.set_ylabel("rotation")
     ax.set_zlabel("move time (s)")
     
     # syntax for plotting
@@ -109,8 +110,8 @@ def linreg_and_plot(lst1, lst2, lst3, operation_type:str):
 ##################################################
 def main():
     
-    operation_type = "kt"
-    # operation_type = "teleop"
+    # operation_type = "kt"
+    operation_type = "teleop"
     
     
     # read data
@@ -119,8 +120,28 @@ def main():
     # df = remove_outliers_zscore(df, "path_rot")
     df = remove_rot_outlier(df)
     
-    trans_list = df['path_trans'].tolist()
-    rot_list = df['path_rot'].tolist()
+    
+    ###### TYPE NUMBER ######
+    type = 3
+    
+    match type:
+        case 1:
+            # type 1: use path trans + rot
+            trans_list = df['path_trans'].tolist()
+            rot_list = df['path_rot'].tolist()
+        case 2:
+            # type 2: use nominal trans + rot Fitts ID values
+            trans_list = df['nom_trans_fid'].tolist()
+            rot_list = df['nom_rot_fid'].tolist()
+        case 3:
+            # type 3: use effective trans + rot Fitts ID values
+            trans_list = df['eff_trans_fid'].tolist()
+            rot_list = df['eff_rot_fid'].tolist()
+        case _:
+            print("Did not match any of cases!")
+            return
+    
+    ### output: movement time ###
     time_list = df['move_time'].tolist()
     
     # perform linear regression, and plot the datapoints and the regressed plane

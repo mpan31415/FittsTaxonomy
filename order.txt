@@ -14,6 +14,8 @@
 
 4. generate_fitts.py -> {read the combined headers and generate new fitts {amplitude, width} columns, /fitts_headers folder}
 
+5. combine_types.py -> {joins the kt and teleop headers}
+
 
 ##### For visualizations #####
 
