@@ -10,6 +10,10 @@
 
 2. combine_headers.py -> {generate kt_header.csv and teleop_header.csv inside /combined_headers folder}
 
+3. series_paralle.py -> {adds a few extra columns to the combined headers}
+
+4. generate_fitts.py -> {read the combined headers and generate new fitts {amplitude, width} columns, /fitts_params folder}
+
 
 ##### For visualizations #####
 

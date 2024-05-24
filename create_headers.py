@@ -15,6 +15,7 @@ def read_data(part_id, task_id, trial_id, operation_type):
 
 ##################################################
 def get_trans_diff(x1, y1, z1, x2, y2, z2):
+    # print("starting position = (%.3f, %.3f, %.3f), finishing posiiton = (%.3f, %.3f, %.3f)" % (x1, y1, z1, x2, y2, z2))
     return sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2)
 
 ##################################################
@@ -61,7 +62,7 @@ def generate_part_header(part_id, operation_type):
             txs = sec1_df['tx'].tolist()
             tys = sec1_df['ty'].tolist()
             tzs = sec1_df['tz'].tolist()
-            trans = get_trans_diff(txs[0], tys[0], tzs[0], txs[-1], tys[-1], tzs[-1])
+            point_trans = get_trans_diff(txs[0], tys[0], tzs[0], txs[-1], tys[-1], tzs[-1])
             path_trans = 0
             inc_trans = []
             for i in range(len(txs)-1):
@@ -75,7 +76,7 @@ def generate_part_header(part_id, operation_type):
             qxs = sec1_df['qx'].tolist()
             qys = sec1_df['qy'].tolist()
             qzs = sec1_df['qz'].tolist()
-            rot = get_quat_diff(qws[0], qxs[0], qys[0], qzs[0], qws[-1], qxs[-1], qys[-1], qzs[-1])
+            point_rot = get_quat_diff(qws[0], qxs[0], qys[0], qzs[0], qws[-1], qxs[-1], qys[-1], qzs[-1])
             path_rot = 0
             inc_rot = []
             for i in range(len(qws)-1):
@@ -95,9 +96,9 @@ def generate_part_header(part_id, operation_type):
             trial_id_list.append(trial_id)
             section_num_list.append(int(1))
             
-            trans_list.append(trans)
+            trans_list.append(point_trans)
             path_trans_list.append(path_trans)
-            rot_list.append(rot)
+            rot_list.append(point_rot)
             path_rot_list.append(path_rot)
             move_time_list.append(move_time)
             
@@ -112,7 +113,7 @@ def generate_part_header(part_id, operation_type):
             txs = sec2_df['tx'].tolist()
             tys = sec2_df['ty'].tolist()
             tzs = sec2_df['tz'].tolist()
-            trans = get_trans_diff(txs[0], tys[0], tzs[0], txs[-1], tys[-1], tzs[-1])
+            point_trans = get_trans_diff(txs[0], tys[0], tzs[0], txs[-1], tys[-1], tzs[-1])
             path_trans = 0
             inc_trans = []
             for i in range(len(txs)-1):
@@ -126,7 +127,7 @@ def generate_part_header(part_id, operation_type):
             qxs = sec2_df['qx'].tolist()
             qys = sec2_df['qy'].tolist()
             qzs = sec2_df['qz'].tolist()
-            rot = get_quat_diff(qws[0], qxs[0], qys[0], qzs[0], qws[-1], qxs[-1], qys[-1], qzs[-1])
+            point_rot = get_quat_diff(qws[0], qxs[0], qys[0], qzs[0], qws[-1], qxs[-1], qys[-1], qzs[-1])
             path_rot = 0
             inc_rot = []
             for i in range(len(qws)-1):
@@ -143,9 +144,9 @@ def generate_part_header(part_id, operation_type):
             trial_id_list.append(trial_id)
             section_num_list.append(int(2))
             
-            trans_list.append(trans)
+            trans_list.append(point_trans)
             path_trans_list.append(path_trans)
-            rot_list.append(rot)
+            rot_list.append(point_rot)
             path_rot_list.append(path_rot)
             move_time_list.append(move_time)
             

@@ -16,7 +16,11 @@ def read_data(part_id, task_id, trial_id, operation_type):
 ##################################################
 def main():
     
-    df = read_data(1, 3, 1, "kt")
+    part_id = 1
+    task_id = 2
+    trial_id = 1
+    
+    df = read_data(part_id, task_id, trial_id, "kt")
     
     # get translation points across the traj
     txs = df['tx']
