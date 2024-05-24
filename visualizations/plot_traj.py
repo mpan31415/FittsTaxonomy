@@ -16,9 +16,9 @@ def read_data(part_id, task_id, trial_id, operation_type):
 ##################################################
 def main():
     
-    part_id = 1
-    task_id = 2
-    trial_id = 1
+    part_id = 5
+    task_id = 3
+    trial_id = 2
     
     df = read_data(part_id, task_id, trial_id, "kt")
     

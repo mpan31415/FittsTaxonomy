@@ -178,7 +178,7 @@ def generate_part_header(part_id, operation_type):
 ##################################################
 def main():
     
-    for part_id in range(1, NUM_PARTICIPANTS+1):
+    for part_id in range(2, NUM_PARTICIPANTS+1):
         
         # kinesthetic teaching
         kt_df = generate_part_header(part_id, "kt")

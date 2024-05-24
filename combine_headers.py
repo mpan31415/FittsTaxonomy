@@ -19,7 +19,7 @@ def main():
     
     ###### kinesthetic teaching ######
     kt_df_list = []
-    for part_id in range(1, NUM_PARTICIPANTS+1):
+    for part_id in range(2, NUM_PARTICIPANTS+1):
         kt_df_list.append(read_header_data(part_id, "kt"))
         
     concat_kt_df = concat(kt_df_list, axis=0, ignore_index=True)
@@ -29,7 +29,7 @@ def main():
         
     ###### teleoperation ######
     teleop_df_list = []
-    for part_id in range(1, NUM_PARTICIPANTS+1):
+    for part_id in range(2, NUM_PARTICIPANTS+1):
         teleop_df_list.append(read_header_data(part_id, "teleop"))
     
     concat_teleop_df = concat(teleop_df_list, axis=0, ignore_index=True)
