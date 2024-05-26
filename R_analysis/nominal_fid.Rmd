@@ -58,7 +58,9 @@ qqline(model_residuals)
 
 
 # Fit the mixed multiple regression model with interaction - Kinesthetic teaching
-model <- lmer(move_time ~ nom_trans_fid * nom_rot_fid + (1+nom_trans_fid|part_id) + (1+nom_rot_fid|part_id) + (1|part_id), data = kt_df)
+# model <- lmer(move_time ~ nom_trans_fid * nom_rot_fid + (1+nom_trans_fid|part_id) + (1+nom_rot_fid|part_id) + (1|part_id), data = kt_df)
+
+model <- lmer(move_time ~ nom_trans_fid * nom_rot_fid + (1|part_id), data = kt_df)
 summary(model)
 
 
@@ -87,7 +89,8 @@ qqline(model_residuals)
 
 
 # Fit the mixed multiple regression model with interaction - teleoperation
-model <- lmer(move_time ~ nom_trans_fid * nom_rot_fid + (1+nom_trans_fid|part_id) + (1+nom_rot_fid|part_id) + (1|part_id), data = teleop_df)
+# model <- lmer(move_time ~ nom_trans_fid * nom_rot_fid + (1+nom_trans_fid|part_id) + (1+nom_rot_fid|part_id) + (1|part_id), data = teleop_df)
+model <- lmer(move_time ~ nom_trans_fid * nom_rot_fid + (1|part_id), data = teleop_df)
 summary(model)
 
 

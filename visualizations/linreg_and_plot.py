@@ -122,7 +122,7 @@ def main():
     
     
     ###### TYPE NUMBER ######
-    type = 3
+    type = 2
     
     match type:
         case 1:

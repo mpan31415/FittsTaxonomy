@@ -49,7 +49,7 @@ task_df %>%
 bxp1 <- ggboxplot(task_df, x = "op_type", y = "norm_abs_diff", 
           color = "op_type", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("kt", "teleop"),
-          ylab = "Move Time (s)", xlab = "Operation Type")
+          ylab = "Level of serial execution", xlab = "Operation Type")
 bxp1
 
 ```
